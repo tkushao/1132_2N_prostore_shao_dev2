@@ -37,7 +37,7 @@ const AdminCabinPage = async (props: {
     <div className='space-y-2'>
       <div className='flex-between'>
         <div className='flex items-center gap-3'>
-          <h1 className='h2-bold'>Cabins</h1>
+          <h1 className='h2-bold'>Cabins_xx</h1>
           {searchText && (
             <div>
               Filtered by <i>&quot;{searchText}&quot;</i>{' '}
@@ -59,34 +59,40 @@ const AdminCabinPage = async (props: {
             <TableRow>
               <TableHead>ID</TableHead>
               <TableHead>NAME</TableHead>
-              <TableHead>Capacity</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Discount</TableHead>
-              <TableHead>Local Image</TableHead>
-              {/* <TableHead>Description</TableHead> */}
-              <TableHead>ACTIONS</TableHead>
+              <TableHead className='text-right'>PRICE</TableHead>
+              <TableHead>CATEGORY</TableHead>
+              <TableHead>STOCK</TableHead>
+              <TableHead>RATING</TableHead>
+              <TableHead className='w-[100px]'>ACTIONS</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {cabins.map((cabin) => (
-              <TableRow key={cabin.id}>
-                <TableCell>{formatId(cabin.id)}</TableCell>
-                <TableCell>{cabin.name}</TableCell>
-                <TableCell>{cabin.capacity}</TableCell>
-                <TableCell>{cabin.price}</TableCell>
-                <TableCell>{cabin.discount}</TableCell>
-                <TableCell>{cabin.local_img}</TableCell>
-                {/* <TableCell>{cabin.description}</TableCell> */}
-                <TableCell>
+            {products.data.map((product) => (
+              <TableRow key={product.id}>
+                <TableCell>{formatId(product.id)}</TableCell>
+                <TableCell>{product.name}</TableCell>
+                <TableCell className='text-right'>
+                  {formatCurrency(product.price.toString())}
+                </TableCell>
+                <TableCell>{product.category}</TableCell>
+                <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.rating.toString()}</TableCell>
+                <TableCell className='flex gap-1'>
                   <Button asChild variant='outline' size='sm'>
-                    <Link href={`/admin/cabins/${cabin.id}`}>Edit</Link>
+                    <Link href={`/admin/products/${product.id}`}>Edit</Link>
                   </Button>
-                  <DeleteDialog id={cabin.id} action={deleteCabin} />
+                  <DeleteDialog
+                    id={product.id}
+                    action={deleteProduct}
+                  ></DeleteDialog>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        {products.totalPages && products.totalPages > 1 && (
+          <Pagination page={page} totalPages={products.totalPages} />
+        )}
       </div>
     </div>
   );

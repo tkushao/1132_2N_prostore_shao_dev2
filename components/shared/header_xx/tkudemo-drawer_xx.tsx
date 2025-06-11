@@ -23,8 +23,8 @@ const tkudemos = [
 ];
 
 const TKUDemoDrawer_xx = async () => {
-  // const categories = await getAllCategories();
-
+  const categories = await getAllCategories();
+  const tkudemo = await tkudemos;
   return (
     <Drawer direction='left'>
       <DrawerTrigger asChild>
@@ -36,17 +36,15 @@ const TKUDemoDrawer_xx = async () => {
         <DrawerHeader>
           <DrawerTitle>Select a tku demo</DrawerTitle>
           <div className='space-y-1 mt-4'>
-            {tkudemos.map((demo) => (
+            {tkudemo.map((x) => (
               <Button
                 variant='ghost'
                 className='w-full justify-start'
-                key={demo.href}
+                key={x.title}
                 asChild
               >
                 <DrawerClose asChild>
-                  <Link href={`${demo.href}`} className='w-full'>
-                    {demo.title}
-                  </Link>
+                  <Link href={`${x.href}`}>{x.title}</Link>
                 </DrawerClose>
               </Button>
             ))}
